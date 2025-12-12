@@ -1,0 +1,13 @@
+# Policy Pulse Core Requirements
+
+# Web framework
+Flask==2.3.3
+
+# NLP and text processing
+sentence-transformers==2.2.2
+PyMuPDF==1.18.18
+python-docx==0.8.11
+
+# Utilities
+python-dotenv==1.0.0
+requests==2.31.0

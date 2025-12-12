@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  title: Policy Pulse Microsoft Teams Webhook API
+  description: API for receiving and processing Microsoft Teams webhook events
+  version: 1.0.0
+servers:
+  - url: https://api.policypulse.com
+    description: Production server
+  - url: https://staging.policypulse.com
+    description: Staging server
+
+paths:
+  /api/teams/webhook:
+    post:
+      summary: Receive Teams message
+      description: Endpoint for receiving Teams message webhooks from configured channels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamsMessage'
+      responses:
+        '200':
+          description: Message processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamsResponse'
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    TeamsMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique message identifier
+        createdDateTime:
+          type: string
+          format: date-time
+          description: When the message was created
+        lastModifiedDateTime:
+          type: string
+          format: date-time
+          description: When the message was last modified
+        chatId:
+          type: string
+          description: Chat or channel identifier
+        messageType:
+          type: string
+          enum: [message, chatMessage, meetingMessage]
+          description: Type of message
+        content:
+          type: object
+          properties:
+            content:
+              type: string
+              description: Message content
+            contentType:
+              type: string
+              enum: [text, html]
+        from:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: User identifier
+                displayName:
+                  type: string
+                  description: User's display name
+        body:
+          type: object
+          properties:
+            content:
+              type: string
+              description: Message body content
+            contentType:
+              type: string
+              enum: [text, html]
+
+    TeamsResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [success, error]
+          description: Processing status
+        message:
+          type: string
+          description: Optional status message
+        complianceGuidance:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComplianceGuidance'
+          description: Compliance guidance provided based on message content
+
+    ComplianceGuidance:
+      type: object
+      properties:
+        policyTitle:
+          type: string
+          description: Title of the relevant policy
+        relevanceScore:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Relevance score of the policy to the message
+        guidanceText:
+          type: string
+          description: Compliance guidance text
+        actionItems:
+          type: array
+          items:
+            type: string
+          description: Action checklist items

@@ -1,0 +1,333 @@
+openapi: 3.0.0
+info:
+  title: Policy Pulse Project Structure API
+  description: API for managing and querying the Policy Pulse project structure
+  version: 1.0.0
+servers:
+  - url: https://api.policypulse.com
+    description: Production server
+  - url: https://staging.policypulse.com
+    description: Staging server
+
+paths:
+  /api/projects:
+    get:
+      summary: List all projects
+      description: Retrieve a list of all projects in the Policy Pulse architecture
+      responses:
+        '200':
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+    post:
+      summary: Create new project
+      description: Create a new project in the Policy Pulse architecture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+      responses:
+        '201':
+          description: Project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+  /api/projects/{id}:
+    get:
+      summary: Get project details
+      description: Retrieve details of a specific project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Project details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          description: Project not found
+    put:
+      summary: Update project
+      description: Update an existing project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+      responses:
+        '200':
+          description: Project updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          description: Project not found
+    delete:
+      summary: Delete project
+      description: Remove a project from the system
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Project deleted successfully
+        '404':
+          description: Project not found
+
+  /api/components:
+    get:
+      summary: List all components
+      description: Retrieve a list of all components in the Policy Pulse architecture
+      responses:
+        '200':
+          description: List of components
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  components:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Component'
+    post:
+      summary: Create new component
+      description: Create a new component in the Policy Pulse architecture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComponentRequest'
+      responses:
+        '201':
+          description: Component created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Component'
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+  /api/components/{id}:
+    get:
+      summary: Get component details
+      description: Retrieve details of a specific component
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Component details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Component'
+        '404':
+          description: Component not found
+    put:
+      summary: Update component
+      description: Update an existing component
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComponentRequest'
+      responses:
+        '200':
+          description: Component updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Component'
+        '404':
+          description: Component not found
+    delete:
+      summary: Delete component
+      description: Remove a component from the system
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Component deleted successfully
+        '404':
+          description: Component not found
+
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the project
+        name:
+          type: string
+          description: Name of the project
+        type:
+          type: string
+          enum: [backend, frontend, shared]
+          description: Type of project
+        path:
+          type: string
+          description: Relative path to the project
+        description:
+          type: string
+          description: Description of the project's purpose
+        dependencies:
+          type: array
+          items:
+            type: string
+          description: List of dependencies for the project
+        version:
+          type: string
+          description: Current version of the project
+
+    ProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the project
+        type:
+          type: string
+          enum: [backend, frontend, shared]
+          description: Type of project
+        path:
+          type: string
+          description: Relative path to the project
+        description:
+          type: string
+          description: Description of the project's purpose
+        dependencies:
+          type: array
+          items:
+            type: string
+          description: List of dependencies for the project
+        version:
+          type: string
+          description: Current version of the project
+
+    Component:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the component
+        name:
+          type: string
+          description: Name of the component
+        type:
+          type: string
+          enum: [module, service, library, script, configuration]
+          description: Type of component
+        path:
+          type: string
+          description: Relative path to the component
+        project_id:
+          type: string
+          description: Reference to the parent project
+        description:
+          type: string
+          description: Description of the component's purpose
+        size_lines:
+          type: integer
+          description: Number of lines of code
+        last_modified:
+          type: string
+          format: date-time
+          description: When the component was last modified
+
+    ComponentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the component
+        type:
+          type: string
+          enum: [module, service, library, script, configuration]
+          description: Type of component
+        path:
+          type: string
+          description: Relative path to the component
+        project_id:
+          type: string
+          description: Reference to the parent project
+        description:
+          type: string
+          description: Description of the component's purpose
+        size_lines:
+          type: integer
+          description: Number of lines of code
+        last_modified:
+          type: string
+          format: date-time
+          description: When the component was last modified
+
+    ComponentDependency:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the dependency
+        source_component_id:
+          type: string
+          description: Component that depends on another
+        target_component_id:
+          type: string
+          description: Component that is depended upon
+        type:
+          type: string
+          enum: [runtime, build, test]
+          description: Type of dependency
+        version_constraint:
+          type: string
+          description: Version requirements
