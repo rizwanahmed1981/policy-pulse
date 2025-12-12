@@ -41,16 +41,16 @@ Provide clear documentation and modular structure for backend components to allo
 Developers can review the directory structure, understand component responsibilities, and confirm all modules are properly organized.
 
 ### Implementation Tasks
-- [ ] T013 [US1] Create README.md for policy-pulse-core explaining the project structure
-- [ ] T014 [US1] Create documentation for backend modules (extractors, chat, rag, main)
-- [ ] T015 [US1] Implement basic project structure in policy-pulse-core/src
-- [ ] T016 [US1] Create initial models directory with sample models
-- [ ] T017 [US1] Create initial services directory with sample services
-- [ ] T018 [US1] Create initial CLI directory with sample commands
-- [ ] T019 [US1] Create initial lib directory with shared libraries
-- [ ] T020 [US1] Set up basic testing framework for backend (pytest)
-- [ ] T021 [US1] Create basic backend API structure (Flask routes)
-- [ ] T022 [US1] Create initial backend configuration files
+- [x] T013 [US1] Create README.md for policy-pulse-core explaining the project structure
+- [x] T014 [US1] Create documentation for backend modules (extractors, chat, rag, main)
+- [x] T015 [US1] Implement basic project structure in policy-pulse-core/src
+- [x] T016 [US1] Create initial models directory with sample models
+- [x] T017 [US1] Create initial services directory with sample services
+- [x] T018 [US1] Create initial CLI directory with sample commands
+- [x] T019 [US1] Create initial lib directory with shared libraries
+- [x] T020 [US1] Set up basic testing framework for backend (pytest)
+- [x] T021 [US1] Create basic backend API structure (Flask routes)
+- [x] T022 [US1] Create initial backend configuration files
 
 ## Phase 4: User Story 2 - Desktop Application Structure [US2]
 ### Story Goal

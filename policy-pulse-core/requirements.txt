@@ -8,6 +8,9 @@ sentence-transformers==2.2.2
 PyMuPDF==1.18.18
 python-docx==0.8.11
 
+# Testing
+pytest==7.4.3
+
 # Utilities
 python-dotenv==1.0.0
 requests==2.31.0

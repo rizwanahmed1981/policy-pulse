@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(powershell -ExecutionPolicy Bypass -File .specify/scripts/powershell/create-new-feature.ps1 -Json -Number 1 -ShortName \"policy-pulse-structure\" \"policy-pulse/\n├── policy-pulse-core/       ← Backend (Flask, NLP, chat APIs)\n│   ├── extractors/\n│   ├── chat/\n│   ├── rag/\n│   └── main.py\n│\n└── policy-pulse-desktop/    ← Frontend (Electron + React, Windows-only)\n    ├── public/\n    ├── src/\n    │   ├── components/\n    │   └── main.js (Electron main)\n    └── build-windows.bat\")",
-      "Bash(powershell -ExecutionPolicy Bypass -File .specify/scripts/powershell/check-prerequisites.ps1 -Json)"
+      "Bash(powershell -ExecutionPolicy Bypass -File .specify/scripts/powershell/check-prerequisites.ps1 -Json)",
+      "Bash(dir \"C:\\GIAIC\\quarter_4\\policy-pulse\\specs\\001-policy-pulse-structure\\checklists\" -PathType Container)"
     ]
   }
 }
