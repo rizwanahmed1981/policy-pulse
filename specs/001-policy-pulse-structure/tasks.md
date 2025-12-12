@@ -18,20 +18,20 @@
 This is an MVP-first approach where we focus on establishing the core project structure and documentation. The tasks are organized to deliver a working architecture that can be expanded upon.
 
 ## Phase 1: Setup
-- [ ] T001 Create project directory structure for policy-pulse-core and policy-pulse-desktop
-- [ ] T002 Initialize git repository and .gitignore file
-- [ ] T003 Create requirements.txt for Python backend dependencies
-- [ ] T004 Create package.json for Node.js frontend dependencies
-- [ ] T005 Create build-windows.bat script for Windows packaging
-- [ ] T006 Set up basic documentation structure with README.md
+- [x] T001 Create project directory structure for policy-pulse-core and policy-pulse-desktop
+- [x] T002 Initialize git repository and .gitignore file
+- [x] T003 Create requirements.txt for Python backend dependencies
+- [x] T004 Create package.json for Node.js frontend dependencies
+- [x] T005 Create build-windows.bat script for Windows packaging
+- [x] T006 Set up basic documentation structure with README.md
 
 ## Phase 2: Foundational Tasks
-- [ ] T007 Create backend directory structure (src/models, src/services, src/cli, src/lib)
-- [ ] T008 Create frontend directory structure (src/components, src/main.js, src/preload.js)
-- [ ] T009 Set up Python virtual environment and installation instructions
-- [ ] T010 Set up Node.js environment and installation instructions
-- [ ] T011 Create basic configuration files (config.json for both projects)
-- [ ] T012 Create initial test directory structure (tests/unit, tests/integration, tests/contract)
+- [x] T007 Create backend directory structure (src/models, src/services, src/cli, src/lib)
+- [x] T008 Create frontend directory structure (src/components, src/main.js, src/preload.js)
+- [x] T009 Set up Python virtual environment and installation instructions
+- [x] T010 Set up Node.js environment and installation instructions
+- [x] T011 Create basic configuration files (config.json for both projects)
+- [x] T012 Create initial test directory structure (tests/unit, tests/integration, tests/contract)
 
 ## Phase 3: User Story 1 - Backend Service Architecture [US1]
 ### Story Goal
