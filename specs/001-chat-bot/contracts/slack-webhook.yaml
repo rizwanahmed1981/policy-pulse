@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  title: Policy Pulse Slack Webhook API
+  description: API for receiving and processing Slack webhook events
+  version: 1.0.0
+servers:
+  - url: https://api.policypulse.com
+    description: Production server
+  - url: https://staging.policypulse.com
+    description: Staging server
+
+paths:
+  /api/slack/events:
+    post:
+      summary: Receive Slack event
+      description: Endpoint for receiving Slack event webhooks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlackEvent'
+      responses:
+        '200':
+          description: Event processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlackResponse'
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+  /api/slack/verify:
+    get:
+      summary: Verify Slack request
+      description: Endpoint for verifying Slack app requests
+      parameters:
+        - name: challenge
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Challenge response
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  schemas:
+    SlackEvent:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Verification token
+        team_id:
+          type: string
+          description: Team identifier
+        api_app_id:
+          type: string
+          description: App identifier
+        event:
+          $ref: '#/components/schemas/SlackMessageEvent'
+        type:
+          type: string
+          enum: [event_callback]
+        event_id:
+          type: string
+          description: Event identifier
+        event_time:
+          type: integer
+          description: Event timestamp
+        authed_users:
+          type: array
+          items:
+            type: string
+
+    SlackMessageEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [message]
+        channel:
+          type: string
+          description: Channel identifier
+        user:
+          type: string
+          description: User identifier
+        text:
+          type: string
+          description: Message content
+        ts:
+          type: string
+          description: Message timestamp
+        channel_type:
+          type: string
+          enum: [channel, group, im, mpim]
+
+    SlackResponse:
+      type: object
+      properties:
+        challenge:
+          type: string
+          description: Challenge response for verification
+        ok:
+          type: boolean
+          description: Whether request was successful

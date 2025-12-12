@@ -1,0 +1,180 @@
+openapi: 3.0.0
+info:
+  title: Policy Pulse Document Management API
+  description: API for managing policy documents and vector storage
+  version: 1.0.0
+servers:
+  - url: https://api.policypulse.com
+    description: Production server
+  - url: https://staging.policypulse.com
+    description: Staging server
+
+paths:
+  /api/documents:
+    get:
+      summary: List policy documents
+      description: Retrieve a list of all policy documents
+      responses:
+        '200':
+          description: List of policy documents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  documents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PolicyDocument'
+    post:
+      summary: Upload policy document
+      description: Upload a new policy document for processing
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Policy document file (PDF, DOCX, HTML)
+                title:
+                  type: string
+                  description: Document title
+                sourceType:
+                  type: string
+                  enum: [local, sharepoint, confluence]
+                  description: Source of the document
+                sourcePath:
+                  type: string
+                  description: Path in the source system
+      responses:
+        '201':
+          description: Document uploaded and processing started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyDocument'
+        '400':
+          description: Invalid file or parameters
+        '500':
+          description: Processing error
+
+  /api/documents/{id}:
+    get:
+      summary: Get document details
+      description: Retrieve details of a specific policy document
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyDocument'
+        '404':
+          description: Document not found
+    delete:
+      summary: Delete policy document
+      description: Remove a policy document from the system
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Document deleted successfully
+        '404':
+          description: Document not found
+
+  /api/documents/search:
+    post:
+      summary: Search policy documents
+      description: Search for relevant policy content based on query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: Search query
+                topK:
+                  type: integer
+                  default: 5
+                  description: Number of results to return
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SearchResult'
+
+components:
+  schemas:
+    PolicyDocument:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the document
+        title:
+          type: string
+          description: Document title
+        sourcePath:
+          type: string
+          description: Original location of the document
+        sourceType:
+          type: string
+          enum: [local, sharepoint, confluence]
+          description: Source of the document
+        contentHash:
+          type: string
+          description: SHA-256 hash of content
+        status:
+          type: string
+          enum: [uploaded, processing, processed, failed]
+          description: Processing status
+        createdAt:
+          type: string
+          format: date-time
+          description: When the document was uploaded
+        updatedAt:
+          type: string
+          format: date-time
+          description: When the document was last updated
+
+    SearchResult:
+      type: object
+      properties:
+        documentId:
+          type: string
+          description: ID of the matching document
+        documentTitle:
+          type: string
+          description: Title of the matching document
+        relevanceScore:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Relevance score of the match
+        contentSnippet:
+          type: string
+          description: Relevant snippet from the document
